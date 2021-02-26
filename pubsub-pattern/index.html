@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head></head>
+
+<body>
+  <script type="text/javascript" src="index.js"></script>
+  <script type="text/javascript">
+    function user1(movies) {
+      console.log('今天有 ' + movies + ' 电影.\n');
+    }
+    function user2(movies) {
+      console.log('今天有 ' + movies + ' 电影.');
+    }
+    function user3(persons) {
+      console.log('今天有 ' + persons + ' 个人.');
+    }
+
+    var emitter = new Emitter();
+    // 订阅
+    emitter.on('movies', user1);
+    emitter.on('movies', user2);
+    emitter.on('persons', user3);
+    // 发布
+    console.log('start emit: ----------');
+    emitter.emit('movies', 5);
+    emitter.emit('persons', 10);
+    console.log('end emit: ----------');
+
+    // 删除事件中的一个handler
+    emitter.off('movies', user1);
+    // 删除整个事件
+    emitter.off('movies');
+  </script>
+</body>
+
+</html>
