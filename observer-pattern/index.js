@@ -27,7 +27,7 @@ subProto.notify = function(data) {
   var observers = this.observers;
   if (observers.length > 0) {
     observers.forEach(function(item) {
-      item.call(this.ctx, data);
+      item.call(this._ctx, data);
     });
   }
   return this;
