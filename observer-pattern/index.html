@@ -2,102 +2,34 @@
 <html>
 
 <head>
-  <style type="text/css">
-    h3 {
-      color: red;
-    }
-
-    span {
-      display: inline-block;
-      margin-right: 5px;
-    }
-
-    #notify,
-    #delete {
-      margin-right: 5px;
-    }
-
-    hr {
-      border: red 1px solid;
-    }
-
-    button {
-      border-radius: 16px;
-    }
-  </style>
 </head>
 
 <body>
-  <span>名称: </span><input type="text" id="name">
-  <span>内容: </span><input type="text" id="val">
-  <button id="addObserver">创建观察者</button>
-  <hr>
-  <span>ID: </span><input type="text" id="delete"><button id="deleteOpt">删除观察者</button>
-  <hr>
-  <input type="text" id="notify"><button id="notifyOpt">通知/修改观察者内容</button>
-  <hr>
-  <button id="viewCurrentObserver">查看当前所有观察者</button>
   <script type="text/javascript" src="index.js"></script>
   <script type="text/javascript">
     var subject = new Subject();
-    document.getElementById("addObserver").onclick = function() {
-      var name = document.getElementById('name').value.trim();
-      var val = document.getElementById('val').value.trim();
-      if (name == '' || val == '') {
-        alert('姓名 和 内容 不能为空.');
-        return;
-      }
-      var observer = new Observer(name, val);
-      // 将观察者添加到主题中
-      subject.addObserver(observer);
-      alert('添加观察者成功.');
-      console.log('----------------');
-      console.log('after add observer, observerList:\n' + JSON.stringify(subject.observers));
-      console.log('----------------');
-      document.getElementById('name').value = '';
-      document.getElementById('val').value = '';
-    };
-    document.getElementById('deleteOpt').onclick = function() {
-      var id = document.getElementById('delete').value.trim();
-      if (id == '') {
-        alert('观察者 ID 不能为空.');
-        return;
-      }
-      var result = subject.removeObserver(id);
-      if (result.flag == 1) {
-        alert('删除观察者成功.');
-        console.log('----------------');
-        console.log('删除成功, 删除观察者为:\n' + JSON.stringify(result.delObserver));
-        console.log('after delete observer, observerList:\n' + JSON.stringify(subject.observers));
-        console.log('----------------');
-      } else if (result.flag == -1) {
-        alert('未找到匹配的观察者,请确认后重试.');
-      }
-      document.getElementById('delete').value = '';
+
+    // 添加观察者
+    function user1(data) {
+      console.log('添加一名观察者: 小红,今天看了 ' + data + ' 场电影.');
     }
-    document.getElementById('notifyOpt').onclick = function() {
-      var notifyVal = document.getElementById('notify').value.trim();
-      if (notifyVal == '') {
-        alert('修改内容不能为空.');
-        return;
-      }
-      var result = subject.notify(notifyVal);
-      document.getElementById('notify').value = '';
-      if (result == -1) {
-        alert('当前没有观察者,请先进行添加.');
-      } else {
-        alert('通知观察者成功.');
-        console.log('----------------');
-        console.log('修改内容为: ' + notifyVal);
-        console.log('after notify observer, observerList:\n' + JSON.stringify(subject.observers));
-        console.log('----------------');
-      }
+    function user2(data) {
+      console.log('添加一名观察者: 小明,今天看了 ' + data + ' 场电影.');
     }
-    document.getElementById('viewCurrentObserver').onclick = function() {
-      console.log('----------------');
-      console.log('current observerList:\n' + JSON.stringify(subject.observers));
-      console.log('----------------');
-    };
+    function user3(data) {
+      console.log('添加一名观察者: 小花,今天看了 ' + data + ' 场电影.');
+    }
+    subject.addObserver(user1);
+    subject.addObserver(user2);
+    var resAdd = subject.addObserver(user3);
+    console.log('一共添加了:\n' + resAdd.observers.length + ' 名观察者');
+
+    // 删除观察者
+    var resdel = subject.removeObserver(user2);
+    console.log('删除完后,还剩:\n' + resdel.observers.length + ' 名观察者');
+
+    // 通知
+    subject.notify(18);
   </script>
 </body>
 
