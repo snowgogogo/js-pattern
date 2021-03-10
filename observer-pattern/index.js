@@ -23,11 +23,11 @@ subProto.removeObserver = function(fn) {
 }
 
 // 通知
-subProto.notify = function(data) {
+subProto.notify = function(a, b, c) {
   var observers = this.observers;
   if (observers.length > 0) {
     observers.forEach(function(item) {
-      item.call(this._ctx, data);
+      item.call(this._ctx, a, b, c);
     });
   }
   return this;
